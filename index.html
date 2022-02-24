@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Awesome To-Do List</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>TO DO LIST</h1>
+    <div class="container">
+      <div class="addTask">
+        <input type="text" placeholder="Task" />
+        <button>Add</button>
+      </div>
+
+      <ol class="notCompleted">
+        <h3>Pending Task</h3>
+      </ol>
+-
+      <ol class="Completed">
+        <h3>Completed Task</h3>
+      </ol>
+    </div>
+
+    <script>
+      const input = document.querySelector("input");
+      const btn = document.querySelector(".addTask > button");
+
+      btn.addEventListener("click", addList);
+      input.addEventListener("keyup", (e) => {
+        e.keyCode === 13 ? addList(e) : null;
+      });
+
+      function addList(e) {
+        const notCompleted = document.querySelector(".notCompleted");
+        const Completed = document.querySelector(".Completed");
+
+        const newLi = document.createElement("li");
+        const checkBtn = document.createElement("button");
+		const editBtn = document.createElement("button");
+		const doneBtn = document.createElement("button");
+        const delBtn = document.createElement("button");
+
+        checkBtn.innerHTML = '<i class="fa fa-check"></i>';
+		editBtn.innerHTML = '<i class="fa fa-edit"></i>';
+		doneBtn.innerHTML = '<i class="fa fa-done"></i>';
+        delBtn.innerHTML = '<i class="fa fa-trash"></i>';
+
+        if (input.value !== "") {
+          newLi.textContent = input.value;
+          input.value = "";
+          notCompleted.appendChild(newLi);
+          newLi.appendChild(checkBtn);
+		  newLi.appendChild(editBtn);
+          newLi.appendChild(delBtn);
+		  newLi.appendChild(doneBtn);
+        }
+
+        checkBtn.addEventListener("click", function () {
+          const parent = this.parentNode;
+          parent.remove();
+          Completed.appendChild(parent);
+          checkBtn.style.display = "none";
+        });
+		editBtn.addEventListener("click",function () {
+			const parent = this.parentNode;
+			parent.contentEditable = true;
+			doneBtn.addEventListener("click",function(){
+				parent.contentEditable = false;
+
+
+			});
+			
+
+		});
+
+        delBtn.addEventListener("click", function () {
+          const parent = this.parentNode;
+          parent.remove();
+        });
+      }
+    </script>
+  </body>
+</html>
